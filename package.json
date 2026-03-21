@@ -1,0 +1,13 @@
+{
+  "name": "appalhack_2026",
+  "version": "1.0.0",
+  "description": "Camping Themed Torrent Client",
+  "main": "index.js",
+  "repository": "git@github.com:ianacarr/appalhack_2026.git",
+  "author": "nyukuru <nicholasod@proton.me>",
+  "license": "MIT",
+  "dependencies": {
+    "three": "^0.183.2",
+    "webtorrent": "^2.8.5"
+  }
+}

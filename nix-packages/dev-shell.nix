@@ -1,25 +1,21 @@
 {
-  system,
-  mkShell,
-  libtorrent-rasterbar,
-  meson,
-  raylib,
-  ninja,
-  tree,
-  pkg-config,
   self,
+  stdenv,
+  mkShell,
+  nodejs,
+  nodePackages,
+  yarn,
 }: let
-  inherit (self.checks.${system}) pre-commit-check;
+  inherit (self.checks.${stdenv.hostPlatform.system}) pre-commit-check;
 in
   mkShell {
     packages = [
-      meson
-      ninja
-      raylib
-      tree
-      libtorrent-rasterbar
-      pkg-config
+      nodejs
+      nodePackages.prettier
+      yarn
     ];
+
+    buildInputs = pre-commit-check.enabledPackages;
 
     shellHook =
       pre-commit-check.shellHook

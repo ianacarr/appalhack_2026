@@ -1,6 +1,4 @@
-build
-result
-cmake_install.cmake
+node_modules/
 .pre-commit-config.yaml
-appalhack_2026
 
+result

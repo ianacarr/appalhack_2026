@@ -26,15 +26,13 @@
     overlays.default = final: prev: self.packages.${final.system};
 
     packages = forAllSystems (
-      system: pkgs:
-        (pkgs.lib.packagesFromDirectoryRecursive {
-          directory = ./nix-packages;
-          callPackage = pkgs.newScope (
-            self.packages.${system}
-            // {self = builtins.removeAttrs self ["packages"];}
-          );
-        })
-        // {default = self.packages.${system}.camp-client;}
+      system: pkgs: (pkgs.lib.packagesFromDirectoryRecursive {
+        directory = ./nix-packages;
+        callPackage = pkgs.newScope (
+          self.packages.${system}
+          // {self = builtins.removeAttrs self ["packages"];}
+        );
+      })
     );
 
     devShells = forAllSystems (system: pkgs: {
@@ -46,8 +44,7 @@
         src = ./.;
         hooks = {
           alejandra.enable = true;
-          clang-format.enable = true;
-          clang-format.types_or = pkgs.lib.mkForce ["c" "c++"];
+          prettier.enable = true;
         };
       };
     });
