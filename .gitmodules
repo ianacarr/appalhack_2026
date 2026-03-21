@@ -1,0 +1,3 @@
+[submodule "lib/libtorrent"]
+	path = lib/libtorrent
+	url = https://github.com/arvidn/libtorrent
