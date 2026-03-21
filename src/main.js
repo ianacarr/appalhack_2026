@@ -14,7 +14,6 @@ const camera = new THREE.PerspectiveCamera(
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setAnimationLoop(animate);
 document.body.appendChild(renderer.domElement);
 
 const loader = new GLTFLoader();
@@ -31,14 +30,14 @@ let fireplace_pos = new THREE.Vector3(0.075, 0.005, 0.04);
 scene.add(gltf.scene);
 //renderer.setClearColor(0xffffff, 1);
 //camera.position = fireplace_pos + THREE.Vector3
-camera.position.set(0.2, 0.07, 0.07);
+camera.position.set(0.2, 0.05, 0.07);
 
-camera.lookAt(fireplace_pos.x, fireplace_pos.y, fireplace_pos.z - 0.005);
+camera.lookAt(fireplace_pos.x, fireplace_pos.y + 0.01, fireplace_pos.z - 0.001);
 
-const light = new THREE.PointLight(0xF05000, 0.1);
-light.distance = 0.1;
+const light = new THREE.PointLight(0xF05000 * 1, 0.1);
+light.distance = 0.11;
 light.castShadow = true;
-light.position.set(fireplace_pos.x, fireplace_pos.y, fireplace_pos.z);
+light.position.set(fireplace_pos.x, fireplace_pos.y + 0.005, fireplace_pos.z);
 scene.add(light);
 
 // fireplace particles
