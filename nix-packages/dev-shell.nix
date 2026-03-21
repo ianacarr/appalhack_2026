@@ -3,6 +3,7 @@
   mkShell,
   libtorrent-rasterbar,
   meson,
+  raylib,
   ninja,
   tree,
   pkg-config,
@@ -14,6 +15,7 @@ in
     packages = [
       meson
       ninja
+      raylib
       tree
       libtorrent-rasterbar
       pkg-config

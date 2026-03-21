@@ -10,7 +10,7 @@ project(
   ]
 )
 
-deps = [ dependency('libtorrent-rasterbar') ]
+deps = [ dependency('libtorrent-rasterbar'), dependency('raylib') ]
 subdir('src')
 
 client = executable(

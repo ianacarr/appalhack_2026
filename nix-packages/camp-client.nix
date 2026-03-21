@@ -1,6 +1,7 @@
 {
   stdenv,
   meson,
+  raylib,
   ninja,
   pkg-config,
   libtorrent-rasterbar,
@@ -18,6 +19,7 @@ stdenv.mkDerivation (finalAttrs: {
   ];
 
   buildInputs = [
+    raylib
     libtorrent-rasterbar
   ];
 })
