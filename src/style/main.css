@@ -1,0 +1,18 @@
+#appCanvas {
+  position: relative;
+}
+#seedButton {
+  position: absolute;
+  right: 0;
+  top: 20px;
+}
+#downloadButton {
+  position: absolute;
+  right: 0;
+  top: 150px;
+}
+#settingsButton {
+  position: absolute;
+  right: 0;
+  top: 280px;
+}

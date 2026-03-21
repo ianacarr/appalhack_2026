@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import "./style/main.css";
 
 const scene = new THREE.Scene();
 
