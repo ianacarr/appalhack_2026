@@ -3,6 +3,8 @@
   mkShell,
   libtorrent-rasterbar,
   cmake,
+  gnumake,
+  boost,
   tree,
   pkg-config,
   self,
@@ -12,6 +14,8 @@ in
   mkShell {
     packages = [
       cmake
+      boost
+      gnumake
       tree
       libtorrent-rasterbar
       pkg-config

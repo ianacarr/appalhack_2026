@@ -34,7 +34,7 @@
             // {self = builtins.removeAttrs self ["packages"];}
           );
         })
-        // {default = self.packages.${system}.campclient;}
+        // {default = self.packages.${system}.camp-client;}
     );
 
     devShells = forAllSystems (system: pkgs: {
