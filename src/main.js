@@ -5,15 +5,14 @@ import "./style/main.css";
 // RENDERING CODE BELOW 
 const scene = new THREE.Scene();
 
-const camera = new THREE.PerspectiveCamera(
+var camera = new THREE.PerspectiveCamera(
 	30,
-	window.innerWidth / window.innerHeight,
+	1,
 	0.0001,
-	10,
+	1,
 );
 
 const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 const loader = new GLTFLoader();
@@ -75,6 +74,11 @@ for (let i = 0; i < num_particles; i++) {
 }
 
 function animate(time) {
+	// fix camera/viewport
+	renderer.setSize(window.innerWidth, window.innerHeight);
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
+
 	// SLOWWWW LMFAO!!!!!!!!!!!
 	let vertices = [];
 	for (let i = 0; i < num_particles; i++) {
@@ -101,7 +105,10 @@ function animate(time) {
 
 	const mesh = new THREE.Points(geometry, fire_material);
 	scene.add(mesh);
+
 	renderer.render(scene, camera);
+
+	// fireplace
 	scene.remove(mesh);
 }
 
