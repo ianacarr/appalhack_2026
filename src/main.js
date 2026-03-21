@@ -1,10 +1,10 @@
 import * as THREE from "three";
 import {GLTFLoader} from "three/addons/loaders/GLTFLoader.js"
-
+import "./style/main.css";
 
 // RENDERING CODE BELOW 
-
 const scene = new THREE.Scene();
+
 const camera = new THREE.PerspectiveCamera(
 	30,
 	window.innerWidth / window.innerHeight,
@@ -14,6 +14,7 @@ const camera = new THREE.PerspectiveCamera(
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setAnimationLoop(animate);
 document.body.appendChild(renderer.domElement);
 
 const loader = new GLTFLoader();
