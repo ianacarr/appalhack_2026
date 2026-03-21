@@ -10,6 +10,14 @@ project(
   ]
 )
 
-deps = [ dependency('torrent-rasterbar') ]
+deps = [ dependency('libtorrent-rasterbar') ]
+subdir('src')
 
-client = executable('camp-client', 'main.cpp', dependencies: deps)
+client = executable(
+  'camp-client',
+  campclient_sources,
+  dependencies: deps,
+  install: true
+)
+
+

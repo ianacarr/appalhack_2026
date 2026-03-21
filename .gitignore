@@ -1,6 +1,5 @@
-CMakeCache.txt
-CMakeFiles/*
-Makefile
+build
+result
 cmake_install.cmake
 .pre-commit-config.yaml
 appalhack_2026
