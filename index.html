@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>My first three.js app</title>
+    <title>Camp Client</title>
     <style>
       body {
         margin: 0;
@@ -12,16 +12,21 @@
   <body>
     <div id="appCanvas">
       <div id="buttons">
-        <button id="seedButton">
-          <img src="/ui/up-banner.png" alt="seed" />
-        </button>
-        <button id="downloadButton">
-          <img src="/ui/down-banner.png" alt="download" />
-        </button>
-        <button id="settingsButton">
-          <img src="/ui/settings-banner.png" alt="settings" />
-        </button>
+        <button id="seedButton"></button>
+        <button id="downloadButton"></button>
+        <button id="settingsButton"></button>
       </div>
+      <div id="seedMenu" class="panel hidden">
+        <label for="magnetInput">Enter a magnet link</label>
+        <input type="text" id="magnetInput" />
+        <button id="magnetEnter">Seed</button>
+      </div>
+      <div id="downloadMenu" class="panel hidden">
+        <label for="fileInput">Choose a file</label>
+        <input type="file" id="fileInput" />
+        <button id="fileEnter">Download</button>
+      </div>
+      <div id="settingsMenu" class="panel hidden"></div>
     </div>
     <script type="module" src="/src/main.js"></script>
   </body>
