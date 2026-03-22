@@ -23,6 +23,11 @@ const seedMenuInit = (client) => {
   const seedSubmit = document.getElementById("seedSubmit");
   seedButton.addEventListener("click", onSeedButtonClick);
   seedSubmit.addEventListener("click", onSeedSubmit(client));
+  document.addEventListener("click", (e) => {
+    if (!seedMenu.contains(e.target) && !seedButton.contains(e.target)) {
+      seedMenu.classList.add("hidden");
+    }
+  });
 };
 
 export default seedMenuInit;

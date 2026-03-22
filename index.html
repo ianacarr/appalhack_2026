@@ -13,9 +13,38 @@
     <div id="appCanvas">
       <p id="statusText">Disconnected...</p>
       <div id="buttons">
-        <button id="seedButton" class="mainButton"></button>
-        <button id="downloadButton" class="mainButton"></button>
-        <button id="settingsButton" class="mainButton"></button>
+        <button id="seedButton" class="mainButton">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="white"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="16 11 12 7 8 11"></polyline>
+            <line x1="12" y1="7" x2="12" y2="17"></line>
+            <line x1="6" y1="20" x2="18" y2="20"></line>
+          </svg>
+          <span>Seed</span>
+        </button>
+        <button id="downloadButton" class="mainButton">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="white"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="8 13 12 17 16 13"></polyline>
+            <line x1="12" y1="7" x2="12" y2="17"></line>
+            <line x1="6" y1="20" x2="18" y2="20"></line>
+          </svg>
+          <span>Download</span>
+        </button>
       </div>
       <div id="seedMenu" class="panel hidden">
         <label for="seedInput">Choose a file</label>
@@ -27,7 +56,6 @@
         <input type="text" id="downloadInput" />
         <button id="downloadSubmit">Download</button>
       </div>
-      <div id="settingsMenu" class="panel hidden"></div>
     </div>
     <script type="module" src="/src/main.js"></script>
   </body>

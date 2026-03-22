@@ -9,38 +9,51 @@
   left: 50%;
   transform: translateX(-50%);
 }
-#seedButton {
+
+#buttons {
   position: absolute;
   right: 0;
-  top: 20px;
-}
-#downloadButton {
-  position: absolute;
-  right: 0;
-  top: 150px;
-}
-#settingsButton {
-  position: absolute;
-  right: 0;
-  top: 280px;
+  top: 1.85vh;
+  display: flex;
+  flex-direction: column;
+  gap: 2.8vh;
 }
 
 .mainButton {
-  background: transparent;
-  border: 1px solid white;
+  background: #2a4d1a;
+  border: none;
   outline: none;
-  display: block;
-  height: 100px;
-  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding-left: 18%;
+  height: clamp(60px, 9.3vh, 120px);
+  width: clamp(120px, 10.4vw, 240px);
   cursor: pointer;
+  clip-path: polygon(100% 0%, 0% 0%, 18% 50%, 0% 100%, 100% 100%);
+  color: white;
+}
+
+.mainButton svg {
+  width: clamp(18px, 2.4vh, 32px);
+  height: clamp(18px, 2.4vh, 32px);
+}
+
+.mainButton span {
+  font-size: clamp(7px, 0.65vw, 10px);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-family: sans-serif;
 }
 
 .panel {
   position: fixed;
   top: 50%;
   left: 50%;
-  min-width: 800px;
-  min-height: 500px;
+  min-width: clamp(320px, 41.7vw, 900px);
+  min-height: clamp(280px, 46.3vh, 600px);
   background: #1f1813;
   color: white;
   border: 5px solid #4d3626;
