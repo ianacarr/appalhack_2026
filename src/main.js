@@ -1,27 +1,27 @@
 import * as THREE from "three";
-import {GLTFLoader} from "three/addons/loaders/GLTFLoader.js"
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import "./style/main.css";
+import downloadMenuInit from "./ui/downloadMenu";
+import seedMenuInit from "./ui/seedMenu";
 
-// RENDERING CODE BELOW 
+// RENDERING CODE BELOW
 const scene = new THREE.Scene();
 
-var camera = new THREE.PerspectiveCamera(
-	30,
-	1,
-	0.0001,
-	1,
-);
+downloadMenuInit();
+seedMenuInit();
+
+const camera = new THREE.PerspectiveCamera(30, 1, 0.0001, 1);
 
 const renderer = new THREE.WebGLRenderer();
 document.body.appendChild(renderer.domElement);
 
 const loader = new GLTFLoader();
 const gltf = await loader.loadAsync("/models/stylized_campfire/scene.gltf");
-gltf.scene.traverse(function(child) {
-	if (child.isMesh) {
-		child.receiveShadow = true;
-		child.castShadow = true;
-	}
+gltf.scene.traverse(function (child) {
+  if (child.isMesh) {
+    child.receiveShadow = true;
+    child.castShadow = true;
+  }
 });
 //
 let fireplace_pos = new THREE.Vector3(0.075, 0.005, 0.04);
@@ -33,7 +33,7 @@ camera.position.set(0.2, 0.05, 0.07);
 
 camera.lookAt(fireplace_pos.x, fireplace_pos.y + 0.01, fireplace_pos.z - 0.001);
 
-const light = new THREE.PointLight(0xF05000 * 1, 0.1);
+const light = new THREE.PointLight(0xf05000, 0.1);
 light.distance = 0.11;
 light.castShadow = true;
 light.position.set(fireplace_pos.x, fireplace_pos.y + 0.005, fireplace_pos.z);
@@ -41,11 +41,11 @@ scene.add(light);
 
 // fireplace particles
 let fire_material = new THREE.PointsMaterial({
-	size: 0.008,
-	sizeAttenuation: true,
-	color: new THREE.Color(1, 0.1, 0, 0),
-	transparent: true,
-	opacity: 0.5
+  size: 0.008,
+  sizeAttenuation: true,
+  color: new THREE.Color(1, 0.1, 0, 0),
+  transparent: true,
+  opacity: 0.5,
 });
 
 class Particle {
@@ -67,10 +67,10 @@ class Particle {
 let num_particles = 200;
 let particles = [];
 for (let i = 0; i < num_particles; i++) {
-	particles.push(new Particle());
+  particles.push(new Particle());
 
-	// on startup
-	particles[i].pos.y += Math.random() * 0.05;
+  // on startup
+  particles[i].pos.y += Math.random() * 0.05;
 }
 
 var prev_time = 0.0;
@@ -106,13 +106,13 @@ function animate(time) {
 		new THREE.BufferAttribute(new Float32Array(vertices), 3)
 	);
 
-	const mesh = new THREE.Points(geometry, fire_material);
-	scene.add(mesh);
+  const mesh = new THREE.Points(geometry, fire_material);
+  scene.add(mesh);
 
-	renderer.render(scene, camera);
+  renderer.render(scene, camera);
 
-	// fireplace
-	scene.remove(mesh);
+  // fireplace
+  scene.remove(mesh);
 }
 
 renderer.setAnimationLoop(animate);

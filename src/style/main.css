@@ -16,3 +16,23 @@
   right: 0;
   top: 280px;
 }
+
+.panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 800px;
+  min-height: 500px;
+  background: #1f1813;
+  color: white;
+  border: 5px solid #4d3626;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  z-index: 20;
+  transform: translate(-50%, -50%);
+}
+
+.hidden {
+  display: none;
+}
