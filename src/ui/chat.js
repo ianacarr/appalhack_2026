@@ -37,6 +37,10 @@ export function registerWire(wire, ip) {
   });
 }
 
+export function showChat() {
+  document.getElementById("chatConsole").classList.remove("hidden");
+}
+
 export function resetChat() {
   activeWires.length = 0;
   const messages = document.getElementById("chatMessages");

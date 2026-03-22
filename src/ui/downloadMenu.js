@@ -1,6 +1,6 @@
 import { transferState } from "../state";
 import { openPanel, closePanel } from "./panelUtils";
-import { resetChat } from "./chat";
+import { resetChat, showChat } from "./chat";
 
 const downloadMenu = document.getElementById("downloadMenu");
 const statusText = document.getElementById("statusText");
@@ -48,6 +48,7 @@ const onTorrentReady = (torrent, onWire) => {
   downloadSubmit.textContent = "Fetch";
   downloadSubmit.disabled = false;
   startStatus(torrent);
+  showChat();
   torrent.on("wire", (wire, addr) =>
     onWire(wire, addr.substring(0, addr.lastIndexOf(":"))),
   );
