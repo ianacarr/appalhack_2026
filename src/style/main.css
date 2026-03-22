@@ -13,7 +13,7 @@
 #buttons {
   position: absolute;
   right: 0;
-  top: 1.85vh;
+  top: 10vh;
   display: flex;
   flex-direction: column;
   gap: 2.8vh;
