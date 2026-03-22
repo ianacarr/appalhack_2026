@@ -5,6 +5,7 @@
   "repository": "git@github.com:ianacarr/appalhack_2026.git",
   "author": "nyukuru <nicholasod@proton.me>",
   "license": "MIT",
+  "homepage": "https://ianacarr.github.io/appalhack_2026",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
