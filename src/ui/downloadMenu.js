@@ -52,7 +52,26 @@ const onTorrentReady = (torrent, onWire) => {
   torrent.on("wire", (wire, addr) =>
     onWire(wire, addr.substring(0, addr.lastIndexOf(":"))),
   );
-  torrent.on("done", () => {
+  torrent.on("done", async () => {
+    for (const file of torrent.files) {
+      try {
+        const blob = await file.blob();
+        document.querySelector(".log").append(file.name);
+        console.log(
+          '(Blob URLs only work if the file is loaded from a server. "http//localhost" works. "file://" does not.)',
+        );
+        console.log("File done.");
+        console.log(
+          '<a href="' +
+            URL.createObjectURL(blob) +
+            '">Download full file: ' +
+            file.name +
+            "</a>",
+        );
+      } catch (err) {
+        if (err) log(err.message);
+      }
+    }
     transferState.active = false;
     stopStatus();
   });
