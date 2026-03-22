@@ -4,11 +4,11 @@ import { TextGeometry } from "three/addons/geometries/TextGeometry.js";
 // log positions for people to sit on
 const logA = new THREE.Vector3(0.08, 0.01, 0.081);
 const logA_dir = new THREE.Vector3(0.05, 0.01, 0.048).sub(logA);
-logA_dir.multiplyScalar(1 / 3);
+logA_dir.multiplyScalar(1 / 2.2);
 
 const logB = new THREE.Vector3(0.055, 0.012, 0.015);
 const logB_dir = new THREE.Vector3(0.1, 0.012, 0.004).sub(logB);
-logB_dir.multiplyScalar(1 / 3);
+logB_dir.multiplyScalar(1 / 2.2);
 
 let num_loggers = 0;
 
