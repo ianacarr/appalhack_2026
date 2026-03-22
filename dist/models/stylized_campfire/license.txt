@@ -1,0 +1,11 @@
+Model Information:
+* title:	Stylized Campfire
+* source:	https://sketchfab.com/3d-models/stylized-campfire-3b507b1eb4c142218a4b3baa043e3ed4
+* author:	AndresX (https://sketchfab.com/Andres_X)
+
+Model License:
+* license type:	CC-BY-ND-4.0 (http://creativecommons.org/licenses/by-nd/4.0/)
+* requirements:	Author must be credited. Modified versions can not be distributed. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Stylized Campfire" (https://sketchfab.com/3d-models/stylized-campfire-3b507b1eb4c142218a4b3baa043e3ed4) by AndresX (https://sketchfab.com/Andres_X) licensed under CC-BY-ND-4.0 (http://creativecommons.org/licenses/by-nd/4.0/)
