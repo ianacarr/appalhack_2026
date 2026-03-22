@@ -51,15 +51,15 @@ let fire_material = new THREE.PointsMaterial({
 class Particle {
 	constructor () {
 		this.pos = new THREE.Vector3(
-			Math.random() * 0.01 - 0.005, 
+			Math.random() * 0.001 - 0.0005, 
 			Math.random() * 0.0 - 0, 
-			Math.random() * 0.01 - 0.005
+			Math.random() * 0.001 - 0.0005
 		);
 		this.pos.add(fireplace_pos);
 		this.vel = new THREE.Vector3(
-			Math.random() / 4000 - 1 / 8000, 
-			Math.random() * 0.0001 + 0.0002, 
-			Math.random() / 4000 - 1 / 8000
+			Math.random() / 1000- 1 / 2000, 
+			Math.random() * 0.0005 + 0.0005, 
+			Math.random() / 1000 - 1 / 2000
 		);
 	}
 }
@@ -73,7 +73,10 @@ for (let i = 0; i < num_particles; i++) {
 	particles[i].pos.y += Math.random() * 0.05;
 }
 
+var prev_time = 0.0;
 function animate(time) {
+	let delta_time = (time - prev_time) / 50;
+	prev_time = time;
 	// fix camera/viewport
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	camera.aspect = window.innerWidth / window.innerHeight;
@@ -83,9 +86,9 @@ function animate(time) {
 	let vertices = [];
 	for (let i = 0; i < num_particles; i++) {
 		let p = particles[i];
-		p.vel.x *= 0.99; // x/z dampening
-		p.vel.z *= 0.99; // x/z dampening
-		p.pos.add(p.vel);
+		p.vel.x *= 0.995; // x/z dampening
+		p.vel.z *= 0.995; // x/z dampening
+		p.pos.add(p.vel.clone().multiplyScalar(delta_time));
 		if (p.pos.y > 0.05) {
 			p = new Particle();
 			particles[i] = p;
