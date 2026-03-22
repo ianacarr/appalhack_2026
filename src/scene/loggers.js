@@ -29,7 +29,8 @@ export function add_logger(ip, scene, camera, text_font) {
 
   // body
   let geometry = new THREE.CapsuleGeometry(0.005, 0.01, 10, 10, 1);
-  let material = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
+  let color = (new THREE.Color()).setHSL(Math.random(), 1, 1);
+  let material = new THREE.MeshLambertMaterial({ color: color.getHexString() });
   let mesh = new THREE.Mesh(geometry, material);
   mesh.position.set(pos.x, pos.y + 0.005, pos.z);
   scene.add(mesh);
