@@ -1,4 +1,4 @@
-import createTextExtension from "./textExtension";
+import createTextExtension from "./textExtension.js";
 
 const TextExtension = createTextExtension();
 const activeWires = [];

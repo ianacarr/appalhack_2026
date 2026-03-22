@@ -1,22 +1,22 @@
 import * as THREE from "three";
 import { FontLoader } from "three/addons/loaders/FontLoader.js";
 import "./style/main.css";
-import downloadMenuInit from "./ui/downloadMenu";
-import seedMenuInit from "./ui/seedMenu";
+import downloadMenuInit from "./ui/downloadMenu.js";
+import seedMenuInit from "./ui/seedMenu.js";
 import WebTorrent from "webtorrent";
 
-import { setupCamera } from "./scene/camera";
-import { setupLighting } from "./scene/lighting";
-import { loadModels } from "./scene/models";
+import { setupCamera } from "./scene/camera.js";
+import { setupLighting } from "./scene/lighting.js";
+import { loadModels } from "./scene/models.js";
 import {
   fire_material,
   initParticles,
   updateParticles,
-} from "./scene/particles";
-import { add_logger } from "./scene/loggers";
-import { transferState } from "./state";
-import { setupPostProcessing } from "./scene/postProcessing";
-import { registerWire, initChat } from "./ui/chat";
+} from "./scene/particles.js";
+import { add_logger } from "./scene/loggers.js";
+import { transferState } from "./state.js";
+import { setupPostProcessing } from "./scene/postProcessing.js";
+import { registerWire, initChat } from "./ui/chat.js";
 
 const scene = new THREE.Scene();
 const client = new WebTorrent();

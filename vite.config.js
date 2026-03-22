@@ -5,7 +5,10 @@ export default defineConfig({
   resolve: {
     alias: {
       webtorrent: fileURLToPath(
-        new URL("./docs/webtorrent.min.js", import.meta.url),
+        new URL(
+          "./node_modules/webtorrent/dist/webtorrent.min.js",
+          import.meta.url,
+        ),
       ),
     },
   },

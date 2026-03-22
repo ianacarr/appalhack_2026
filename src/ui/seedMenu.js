@@ -1,6 +1,6 @@
-import { transferState } from "../state";
-import { openPanel, closePanel } from "./panelUtils";
-import { resetChat, showChat } from "./chat";
+import { transferState } from "../state.js";
+import { openPanel, closePanel } from "./panelUtils.js";
+import { resetChat, showChat } from "./chat.js";
 
 const seedMenu = document.getElementById("seedMenu");
 const statusText = document.getElementById("statusText");
