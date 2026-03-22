@@ -2,11 +2,40 @@ import { transferState } from "../state";
 import { openPanel, closePanel } from "./panelUtils";
 
 const seedMenu = document.getElementById("seedMenu");
+const statusText = document.getElementById("statusText");
 
 const onSeedButtonClick = () => {
   seedMenu.classList.contains("hidden")
     ? openPanel(seedMenu)
     : closePanel(seedMenu);
+};
+
+const stopStatus = () => {
+  clearInterval(transferState.statusInterval);
+  transferState.statusInterval = null;
+  statusText.classList.add("hidden");
+};
+
+const updateStatus = (torrent) => {
+  const speed = (bytes) => (bytes / 1024).toFixed(1) + " KB/s";
+  statusText.textContent =
+    `Peers: ${torrent.numPeers} | ` +
+    `Down: ${speed(torrent.downloadSpeed)} | ` +
+    `Up: ${speed(torrent.uploadSpeed)}`;
+};
+
+const startStatus = (torrent) => {
+  statusText.classList.remove("hidden");
+  updateStatus(torrent);
+  if (transferState.statusInterval) clearInterval(transferState.statusInterval);
+  transferState.statusInterval = setInterval(() => updateStatus(torrent), 1000);
+};
+
+const removeTorrent = (client) => {
+  client.remove(transferState.currentTorrent);
+  transferState.currentTorrent = null;
+  transferState.active = false;
+  stopStatus();
 };
 
 const onSeedSubmit = (client, onWire) => () => {
@@ -18,15 +47,27 @@ const onSeedSubmit = (client, onWire) => () => {
   seedSubmit.textContent = "Kindling...";
   seedSubmit.disabled = true;
 
-  if (transferState.active) return;
+  if (transferState.active) {
+    try {
+      removeTorrent(client);
+    } catch (error) {
+      console.log(error);
+      seedSubmit.textContent = "Kindle the Fire";
+      seedSubmit.disabled = false;
+      return;
+    }
+  }
 
   try {
     client.seed(fileInput.files, (torrent) => {
       transferState.active = true;
-      document.getElementById("statusText").textContent = "Seeding...";
+      transferState.currentTorrent = torrent;
+      seedSubmit.textContent = "Kindle the Fire";
+      seedSubmit.disabled = false;
       document.getElementById("magnetUri").value = torrent.magnetURI;
       document.getElementById("magnetResult").classList.remove("hidden");
-      torrent.on("wire", (wire, addr) =>
+      startStatus(torrent);
+      torrent.on("wire", (_, addr) =>
         onWire(addr.substring(0, addr.lastIndexOf(":"))),
       );
     });

@@ -2,28 +2,60 @@ import { transferState } from "../state";
 import { openPanel, closePanel } from "./panelUtils";
 
 const downloadMenu = document.getElementById("downloadMenu");
+const statusText = document.getElementById("statusText");
 
-const onDownloadButtonCLick = () => {
+const onDownloadButtonClick = () => {
   downloadMenu.classList.contains("hidden")
     ? openPanel(downloadMenu)
     : closePanel(downloadMenu);
 };
 
+const stopStatus = () => {
+  clearInterval(transferState.statusInterval);
+  transferState.statusInterval = null;
+  statusText.classList.add("hidden");
+};
+
+const updateStatus = (torrent) => {
+  const speed = (bytes) => (bytes / 1024).toFixed(1) + " KB/s";
+  statusText.textContent =
+    `Peers: ${torrent.numPeers} | ` +
+    `Down: ${speed(torrent.downloadSpeed)} | ` +
+    `Up: ${speed(torrent.uploadSpeed)} | ` +
+    `Progress: ${(torrent.progress * 100).toFixed(1)}%`;
+};
+
+const startStatus = (torrent) => {
+  statusText.classList.remove("hidden");
+  updateStatus(torrent);
+  if (transferState.statusInterval) clearInterval(transferState.statusInterval);
+  transferState.statusInterval = setInterval(() => updateStatus(torrent), 1000);
+};
+
+const removeTorrent = (client) => {
+  client.remove(transferState.currentTorrent);
+  transferState.currentTorrent = null;
+  transferState.active = false;
+  stopStatus();
+};
+
 const onTorrentReady = (torrent, onWire) => {
   transferState.active = true;
-  document.getElementById("statusText").textContent = "Torrenting...";
-  torrent.on("wire", (wire, addr) =>
+  transferState.currentTorrent = torrent;
+  const downloadSubmit = document.getElementById("downloadSubmit");
+  downloadSubmit.textContent = "Fetch";
+  downloadSubmit.disabled = false;
+  startStatus(torrent);
+  torrent.on("wire", (_, addr) =>
     onWire(addr.substring(0, addr.lastIndexOf(":"))),
   );
   torrent.on("done", () => {
     transferState.active = false;
-    document.getElementById("statusText").textContent = "Done.";
+    stopStatus();
   });
 };
 
 const onDownloadSubmit = (client, onWire) => async () => {
-  if (transferState.active) return;
-
   const torrentFileInput = document.getElementById("torrentFileInput");
   const magnetInput = document.getElementById("magnetInput");
   const downloadSubmit = document.getElementById("downloadSubmit");
@@ -32,6 +64,17 @@ const onDownloadSubmit = (client, onWire) => async () => {
 
   downloadSubmit.textContent = "Fetching...";
   downloadSubmit.disabled = true;
+
+  if (transferState.active) {
+    try {
+      removeTorrent(client);
+    } catch (error) {
+      console.log(error);
+      downloadSubmit.textContent = "Fetch";
+      downloadSubmit.disabled = false;
+      return;
+    }
+  }
 
   try {
     if (torrentFileInput.files.length) {
@@ -54,7 +97,7 @@ const onDownloadSubmit = (client, onWire) => async () => {
 const downloadMenuInit = (client, onWire) => {
   const downloadButton = document.getElementById("downloadButton");
   const downloadSubmit = document.getElementById("downloadSubmit");
-  downloadButton.addEventListener("click", onDownloadButtonCLick);
+  downloadButton.addEventListener("click", onDownloadButtonClick);
   downloadSubmit.addEventListener("click", onDownloadSubmit(client, onWire));
   document.addEventListener("click", (e) => {
     if (
