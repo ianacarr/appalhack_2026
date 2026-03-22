@@ -1,6 +1,14 @@
 #appCanvas {
   position: relative;
 }
+
+#statusText {
+  position: absolute;
+  color: white;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+}
 #seedButton {
   position: absolute;
   right: 0;
@@ -15,6 +23,16 @@
   position: absolute;
   right: 0;
   top: 280px;
+}
+
+.mainButton {
+  background: transparent;
+  border: 1px solid white;
+  outline: none;
+  display: block;
+  height: 100px;
+  width: 200px;
+  cursor: pointer;
 }
 
 .panel {
