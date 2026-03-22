@@ -1,5 +1,7 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { FontLoader } from "three/addons/loaders/FontLoader.js";
+import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import "./style/main.css";
 import downloadMenuInit from "./ui/downloadMenu";
 import seedMenuInit from "./ui/seedMenu";
@@ -21,10 +23,11 @@ gltf.scene.traverse(function (child) {
     child.castShadow = true;
   }
 });
-//
 let fireplace_pos = new THREE.Vector3(0.075, 0.005, 0.04);
-
 scene.add(gltf.scene);
+
+const font_loader = new FontLoader();
+const text_font = await font_loader.loadAsync("fonts/helvetiker_regular.typeface.json");
 //renderer.setClearColor(0xffffff, 1);
 //camera.position = fireplace_pos + THREE.Vector3
 // setup camera
@@ -69,13 +72,55 @@ let particles = [];
 for (let i = 0; i < num_particles; i++) {
   particles.push(new Particle());
 
-  // on startup
+  // on startup (so particles dont spawn ugly)
   particles[i].pos.y += Math.random() * 0.05;
 } 
 
 // figure out log positions for people to sit on
+let logA = new THREE.Vector3(0.08, 0.01, 0.081);
+let logA_dir = (new THREE.Vector3(0.05, 0.01, 0.048)).sub(logA);
+logA_dir.multiplyScalar(1 / 4);
 
+let logB = new THREE.Vector3(0.055, 0.012, 0.015);
+let logB_dir = (new THREE.Vector3(0.1, 0.012, 0.004)).sub(logB);
+logB_dir.multiplyScalar(1 / 4);
 
+let num_loggers = 0;
+function add_logger(ip) {
+	num_loggers += 1;
+
+	// select log
+	let pos;
+	if (num_loggers <= 5) {
+		pos = logA.clone().add(logA_dir.clone().multiplyScalar(num_loggers - 1));
+	} else {
+		pos = logB.clone().add(logB_dir.clone().multiplyScalar(num_loggers - 6));
+	}
+
+	// body
+	let geometry = new THREE.CapsuleGeometry(0.005, 0.01, 10, 10, 1);
+	let material = new THREE.MeshLambertMaterial({color : 0x00FF00});
+	let mesh = new THREE.Mesh(geometry, material);
+	mesh.position.set(pos.x, pos.y + 0.005, pos.z);
+	scene.add(mesh);
+
+	// text (ip)
+	let text_geometry = new TextGeometry(ip, {
+		font: text_font,
+		size: 0.01,
+		depth: 0.01
+	});
+	let text_material = new THREE.MeshBasicMaterial({color : 0xFFFFFF});
+	let text_mesh = new THREE.Mesh(text_geometry, text_material);
+	text_mesh.position.set(pos.x, pos.y + 0.01, pos.z);
+	scene.add(text_mesh);
+}
+
+//for (let i = 0; i < 10; i++) {
+	add_logger("192.168.0.1");
+//}
+
+// DRAW FUNCTION.. RUNS EVERY FRAME
 var prev_time = 0.0;
 function animate(time) {
 	let delta_time = (time - prev_time) / 50;
@@ -102,10 +147,9 @@ function animate(time) {
 	MY_BUTTON.setLocation(position_onscreen.x, position_onscreen.y);
 	*/
 
-	// SLOWWWW LMFAO!!!!!!!!!!!
+	// SLOWWWW !!!!!!!!!!!
 	let vertices = [];
-	for (let i = 0; i < num_particles; i++) {
-		let p = particles[i];
+	particles.forEach(function(p, i) {
 		p.vel.x *= 0.995; // x/z dampening
 		p.vel.z *= 0.995; // x/z dampening
 		p.pos.add(p.vel.clone().multiplyScalar(delta_time));
@@ -118,7 +162,7 @@ function animate(time) {
 		vertices.push(p.pos.x);
 		vertices.push(p.pos.y);
 		vertices.push(p.pos.z);
-	}
+	});
 	
 	const geometry = new THREE.BufferGeometry();
 	geometry.setAttribute(
