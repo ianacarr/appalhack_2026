@@ -1,6 +1,6 @@
 import { transferState } from "../state.js";
 import { openPanel, closePanel } from "./panelUtils.js";
-import { resetChat, showChat } from "./chat.js";
+import { resetChat, showChat, addLine } from "./chat.js";
 
 const downloadMenu = document.getElementById("downloadMenu");
 const statusText = document.getElementById("statusText");
@@ -56,20 +56,13 @@ const onTorrentReady = (torrent, onWire) => {
     for (const file of torrent.files) {
       try {
         const blob = await file.blob();
-        document.querySelector(".log").append(file.name);
-        console.log(
+        addLine(
           '(Blob URLs only work if the file is loaded from a server. "http//localhost" works. "file://" does not.)',
         );
-        console.log("File done.");
-        console.log(
-          '<a href="' +
-            URL.createObjectURL(blob) +
-            '">Download full file: ' +
-            file.name +
-            "</a>",
-        );
+        addLine("File done.");
+        addLine("Download full file: " + URL.createObjectURL(blob));
       } catch (err) {
-        if (err) log(err.message);
+        if (err) console.log(err.message);
       }
     }
     transferState.active = false;

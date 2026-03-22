@@ -7,7 +7,7 @@ function timestamp() {
   return new Date().toLocaleTimeString("en-US", { hour12: false });
 }
 
-function addLine(text, type = "peer") {
+export function addLine(text, type = "peer") {
   const messages = document.getElementById("chatMessages");
   if (!messages) return;
   const line = document.createElement("div");
