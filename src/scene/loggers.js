@@ -4,11 +4,11 @@ import { TextGeometry } from "three/addons/geometries/TextGeometry.js";
 // log positions for people to sit on
 const logA = new THREE.Vector3(0.08, 0.01, 0.081);
 const logA_dir = new THREE.Vector3(0.05, 0.01, 0.048).sub(logA);
-logA_dir.multiplyScalar(1 / 4);
+logA_dir.multiplyScalar(1 / 3);
 
 const logB = new THREE.Vector3(0.055, 0.012, 0.015);
 const logB_dir = new THREE.Vector3(0.1, 0.012, 0.004).sub(logB);
-logB_dir.multiplyScalar(1 / 4);
+logB_dir.multiplyScalar(1 / 3);
 
 let num_loggers = 0;
 
@@ -18,12 +18,12 @@ export function add_logger(ip, scene, camera, text_font) {
   // select log
   let pos;
   let dir;
-  if (num_loggers <= 5) {
+  if (num_loggers <= 3) {
     pos = logA.clone();
     dir = logA_dir.clone().multiplyScalar(num_loggers - 1);
   } else {
     pos = logB.clone();
-    dir = logB_dir.clone().multiplyScalar(num_loggers - 6);
+    dir = logB_dir.clone().multiplyScalar(num_loggers - 4);
   }
   pos.add(dir);
 

@@ -47,14 +47,77 @@
         </button>
       </div>
       <div id="seedMenu" class="panel hidden">
-        <label for="seedInput">Choose a file</label>
-        <input type="file" id="seedInput" />
-        <button id="seedSubmit">Seed</button>
+        <div class="panel-header">
+          <h2 class="panel-title">Seeding</h2>
+          <p class="panel-subtitle">Share a file around the campfire</p>
+        </div>
+        <hr class="panel-divider" />
+        <div class="panel-body">
+          <label class="panel-label" for="seedInput"
+            >Choose a file to share</label
+          >
+          <input class="panel-input" type="file" id="seedInput" />
+          <button class="panel-submit" id="seedSubmit">Kindle the Fire</button>
+        </div>
+        <div id="magnetResult" class="magnet-result hidden">
+          <hr class="panel-divider" />
+          <label for="magnetUri" class="panel-label">Magnet link</label>
+          <div class="magnet-row">
+            <textarea
+              class="panel-input magnet-uri"
+              id="magnetUri"
+              readonly
+              rows="3"
+            ></textarea>
+            <button
+              class="magnet-copy"
+              id="magnetCopy"
+              title="Copy to clipboard"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+                <path
+                  d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
       <div id="downloadMenu" class="panel hidden">
-        <label for="downloadInput">Enter a magnet link</label>
-        <input type="text" id="downloadInput" />
-        <button id="downloadSubmit">Download</button>
+        <div class="panel-header">
+          <h2 class="panel-title">Downloading</h2>
+          <p class="panel-subtitle">Gather from the woodpile</p>
+        </div>
+        <hr class="panel-divider" />
+        <div class="panel-body">
+          <label class="panel-label" for="magnetInput">Magnet link</label>
+          <input
+            class="panel-input"
+            type="text"
+            id="magnetInput"
+            placeholder="magnet:?xt=urn:..."
+          />
+          <label class="panel-label panel-label-or">— or —</label>
+          <label class="panel-label" for="torrentFileInput"
+            >.torrent file</label
+          >
+          <input
+            class="panel-input"
+            type="file"
+            id="torrentFileInput"
+            accept=".torrent"
+          />
+          <button class="panel-submit" id="downloadSubmit">Fetch</button>
+        </div>
       </div>
     </div>
     <script type="module" src="/src/main.js"></script>

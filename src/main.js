@@ -12,16 +12,18 @@ import {
   fire_material,
   initParticles,
   updateParticles,
-  Particle,
 } from "./scene/particles";
 import { add_logger } from "./scene/loggers";
+import { transferState } from "./state";
+import { setupPostProcessing } from "./scene/postProcessing";
 
-// --- Setup ---
 const scene = new THREE.Scene();
 const client = new WebTorrent();
 
-downloadMenuInit(client);
-seedMenuInit(client);
+const onWire = (ip) => add_logger(ip, scene, camera, text_font);
+
+downloadMenuInit(client, onWire);
+seedMenuInit(client, onWire);
 
 const renderer = new THREE.WebGLRenderer();
 document.body.appendChild(renderer.domElement);
@@ -36,56 +38,52 @@ const text_font = await font_loader.loadAsync(
 );
 
 const camera = setupCamera(fireplace_pos);
-setupLighting(scene, fireplace_pos);
+const { fireLight, moonLight } = setupLighting(scene, fireplace_pos);
 
 const particles = initParticles(fireplace_pos);
 
-for (let i = 0; i < 10; i++) {
-  add_logger("192.168.0." + i, scene, camera, text_font);
-}
+const { composer, ditherPass } = setupPostProcessing(renderer, scene, camera);
 
-// --- Animation Loop ---
 var prev_time = 0.0;
 function animate(time) {
   let delta_time = Math.min((time - prev_time) / 50, 100 / 50);
   prev_time = time;
 
   // fix camera/viewport
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  camera.aspect = window.innerWidth / window.innerHeight;
+  const w = window.innerWidth,
+    h = window.innerHeight;
+  renderer.setSize(w, h);
+  composer.setSize(w, h);
+  ditherPass.uniforms.resolution.value.set(w, h);
+  camera.aspect = w / h;
   camera.updateProjectionMatrix();
 
-  // PESUDOCODE FOR SIGN BUTTONS
-  /*
-	// take worldspace position and "project" it to screen (3d -> 2d)
-	let position_of_sign = new THREE.Vector4(
-		fireplace_pos.x + 0.01,
-		fireplace_pos.y + 0.01,
-		fireplace_pos.z + 0.01,
-		1 // this '1' is important. Dont change it
-	);
-	let position_onscreen = position_of_sign * camera.projectionMatrix;
-	// IMPORTANT! screen location must be normalized!
-	position_onscreen.x /= position_onscreen.w;
-	position_onscreen.y /= position_onscreen.w;
-	// ^these values will range from -1 to 1
-	MY_BUTTON.setLocation(position_onscreen.x, position_onscreen.y);
-	*/
+  // fade lights based on transfer state
+  const targetFire = transferState.active ? 0.1 : 0;
+  const targetMoon = transferState.active ? 0 : 1.0;
+  const t = 0.03 * delta_time;
+  fireLight.intensity += (targetFire - fireLight.intensity) * t;
+  moonLight.intensity += (targetMoon - moonLight.intensity) * t;
 
-  // SLOWWWW !!!!!!!!!!!
-  const vertices = updateParticles(particles, fireplace_pos, delta_time);
+  // fade particle opacity with fire, skip rendering when invisible
+  fire_material.opacity = (fireLight.intensity / 0.1) * 0.5;
+  if (fireLight.intensity > 0.002) {
+    // SLOWWWW !!!!!!!!!!!
+    const vertices = updateParticles(particles, fireplace_pos, delta_time);
 
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute(
-    "position",
-    new THREE.BufferAttribute(new Float32Array(vertices), 3),
-  );
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute(
+      "position",
+      new THREE.BufferAttribute(new Float32Array(vertices), 3),
+    );
 
-  const mesh = new THREE.Points(geometry, fire_material);
-  scene.add(mesh);
-
-  renderer.render(scene, camera);
-  scene.remove(mesh);
+    const mesh = new THREE.Points(geometry, fire_material);
+    scene.add(mesh);
+    composer.render();
+    scene.remove(mesh);
+  } else {
+    composer.render();
+  }
 }
 
 renderer.setAnimationLoop(animate);

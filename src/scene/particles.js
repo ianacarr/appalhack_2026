@@ -1,11 +1,16 @@
 import * as THREE from "three";
 
+const emberTexture = new THREE.TextureLoader().load("/textures/spark1.png");
+
 export const fire_material = new THREE.PointsMaterial({
   size: 0.008,
   sizeAttenuation: true,
-  color: new THREE.Color(1, 0.1, 0, 0),
+  map: emberTexture,
+  color: new THREE.Color(1, 0.25, 0),
   transparent: true,
   opacity: 0.5,
+  blending: THREE.AdditiveBlending,
+  depthWrite: false,
 });
 
 export class Particle {
