@@ -39,7 +39,7 @@ loadModels(scene, fireplace_pos);
 
 const font_loader = new FontLoader();
 const text_font = await font_loader.loadAsync(
-  "fonts/helvetiker_regular.typeface.json",
+  "./fonts/helvetiker_regular.typeface.json",
 );
 
 const camera = setupCamera(fireplace_pos);
