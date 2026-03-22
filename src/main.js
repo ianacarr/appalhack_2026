@@ -3,12 +3,16 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import "./style/main.css";
 import downloadMenuInit from "./ui/downloadMenu";
 import seedMenuInit from "./ui/seedMenu";
+import settingMenuInit from "./ui/settingsMenu";
+import WebTorrent from "webtorrent";
 
 // RENDERING CODE BELOW
 const scene = new THREE.Scene();
+const client = new WebTorrent();
 
-downloadMenuInit();
-seedMenuInit();
+downloadMenuInit(client);
+seedMenuInit(client);
+settingMenuInit();
 
 const renderer = new THREE.WebGLRenderer();
 document.body.appendChild(renderer.domElement);

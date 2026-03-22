@@ -1,12 +1,23 @@
 const downloadMenu = document.getElementById("downloadMenu");
 
-const onDownloadButtonClick = () => {
+const onDownloadButtonCLick = () => {
   downloadMenu.classList.toggle("hidden");
 };
 
-const downloadMenuInit = () => {
+const downloadMenuInit = (client) => {
   const downloadButton = document.getElementById("downloadButton");
-  downloadButton.addEventListener("click", onDownloadButtonClick);
+  const downloadSubmit = document.getElementById("downloadSubmit");
+  downloadButton.addEventListener("click", onDownloadButtonCLick);
+  downloadSubmit.addEventListener("click", onDownloadSubmit(client));
+};
+const onDownloadSubmit = (client) => () => {
+  const magnetInput = document.getElementById("magnetInput");
+  const magnet = magnetInput.value;
+  try {
+    client.add(magnet);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export default downloadMenuInit;
