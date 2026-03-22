@@ -10,8 +10,6 @@ const scene = new THREE.Scene();
 downloadMenuInit();
 seedMenuInit();
 
-const camera = new THREE.PerspectiveCamera(30, 1, 0.0001, 1);
-
 const renderer = new THREE.WebGLRenderer();
 document.body.appendChild(renderer.domElement);
 
@@ -29,10 +27,12 @@ let fireplace_pos = new THREE.Vector3(0.075, 0.005, 0.04);
 scene.add(gltf.scene);
 //renderer.setClearColor(0xffffff, 1);
 //camera.position = fireplace_pos + THREE.Vector3
+// setup camera
+const camera = new THREE.PerspectiveCamera(30, 1, 0.0001, 1);
 camera.position.set(0.2, 0.05, 0.07);
-
 camera.lookAt(fireplace_pos.x, fireplace_pos.y + 0.01, fireplace_pos.z - 0.001);
 
+// lighting
 const light = new THREE.PointLight(0xf05000, 0.1);
 light.distance = 0.11;
 light.castShadow = true;
@@ -71,7 +71,10 @@ for (let i = 0; i < num_particles; i++) {
 
   // on startup
   particles[i].pos.y += Math.random() * 0.05;
-}
+} 
+
+// figure out log positions for people to sit on
+
 
 var prev_time = 0.0;
 function animate(time) {
@@ -81,6 +84,23 @@ function animate(time) {
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
+
+	// PESUDOCODE FOR SIGN BUTTONS
+	/*
+	// take worldspace position and "project" it to screen (3d -> 2d)
+	let position_of_sign = new THREE.Vector4(
+		fireplace_pos.x + 0.01,
+		fireplace_pos.y + 0.01,
+		fireplace_pos.z + 0.01,
+		1 // this '1' is important. Dont change it
+	);
+	let position_onscreen = position_of_sign * camera.projectionMatrix;
+	// IMPORTANT! screen location must be normalized!
+	position_onscreen.x /= position_onscreen.w;
+	position_onscreen.y /= position_onscreen.w;
+	// ^these values will range from -1 to 1
+	MY_BUTTON.setLocation(position_onscreen.x, position_onscreen.y);
+	*/
 
 	// SLOWWWW LMFAO!!!!!!!!!!!
 	let vertices = [];
