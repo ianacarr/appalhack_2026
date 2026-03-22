@@ -16,14 +16,19 @@ import {
 import { add_logger } from "./scene/loggers";
 import { transferState } from "./state";
 import { setupPostProcessing } from "./scene/postProcessing";
+import { registerWire, initChat } from "./ui/chat";
 
 const scene = new THREE.Scene();
 const client = new WebTorrent();
 
-const onWire = (ip) => add_logger(ip, scene, camera, text_font);
+const onWire = (wire, ip) => {
+  add_logger(ip, scene, camera, text_font);
+  registerWire(wire, ip);
+};
 
 downloadMenuInit(client, onWire);
 seedMenuInit(client, onWire);
+initChat();
 
 const renderer = new THREE.WebGLRenderer();
 document.body.appendChild(renderer.domElement);

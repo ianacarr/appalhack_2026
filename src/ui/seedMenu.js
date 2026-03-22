@@ -1,5 +1,6 @@
 import { transferState } from "../state";
 import { openPanel, closePanel } from "./panelUtils";
+import { resetChat } from "./chat";
 
 const seedMenu = document.getElementById("seedMenu");
 const statusText = document.getElementById("statusText");
@@ -36,6 +37,7 @@ const removeTorrent = (client) => {
   transferState.currentTorrent = null;
   transferState.active = false;
   stopStatus();
+  resetChat();
 };
 
 const onSeedSubmit = (client, onWire) => () => {
@@ -67,8 +69,8 @@ const onSeedSubmit = (client, onWire) => () => {
       document.getElementById("magnetUri").value = torrent.magnetURI;
       document.getElementById("magnetResult").classList.remove("hidden");
       startStatus(torrent);
-      torrent.on("wire", (_, addr) =>
-        onWire(addr.substring(0, addr.lastIndexOf(":"))),
+      torrent.on("wire", (wire, addr) =>
+        onWire(wire, addr.substring(0, addr.lastIndexOf(":"))),
       );
     });
   } catch (error) {
